@@ -1,37 +1,50 @@
+import { useEffect, useState } from 'react';
 import './App.css';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
-
-
+import Card from './components/Card';
 
 function App() {
-
   const [loading, setLoading] = useState(false);
   const [characters, setCharacters] = useState([]);
+  const [idPersonaje, setIdPersonaje] = useState(1);
 
-  const getCharacter = async() => {
+  const getCharacter = async () => {
     setLoading(true);
-    const {data} = await axios('https://rickandmortyapi.com/api/character');
+
+    const { data } = await axios('https://rickandmortyapi.com/api/character');
     setCharacters(data.results);
+
     setLoading(false);
   };
 
   useEffect(() => {
     getCharacter();
-  }, [])
-  console.log(characters);
-  
-  
+  }, []);
+
+  const getIdPersonaje = (id) => {
+    setIdPersonaje(id);
+  };
+
+  const getCharacterById = async () => {
+    const { data } = await axios(`https://rickandmortyapi.com/api/character/${idPersonaje}`);
+    console.log(data);
+  };
+
+  useEffect(() => {
+    getCharacterById();
+  }, [idPersonaje]);
+
   return (
     <div className="App">
       {
         loading && <p>Cargando....</p>
       }
       {
-        characters?.map(character => 
-          <h1 key={character.id}>{character.name}</h1>)
+        characters?.map(character => <Card
+        key={character.id}
+        character={character}
+        getIdPersonaje={getIdPersonaje} />)
       }
-      <p>nueva branch</p>
     </div>
 
   );
