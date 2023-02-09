@@ -31,7 +31,9 @@ function App() {
         characters?.map(character => 
           <h1 key={character.id}>{character.name}</h1>)
       }
+      <p>nueva branch</p>
     </div>
+
   );
 }
 
