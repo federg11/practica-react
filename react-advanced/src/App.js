@@ -28,7 +28,7 @@ function App() {
         loading && <p>Cargando....</p>
       }
       {
-        characters.map(character => 
+        characters?.map(character => 
           <h1 key={character.id}>{character.name}</h1>)
       }
     </div>
