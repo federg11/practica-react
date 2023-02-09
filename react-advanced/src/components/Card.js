@@ -5,7 +5,6 @@ const Card = ({ character, getIdPersonaje }) => {
     getIdPersonaje(character.id);
   };
 
-  console.log(character);
   return (
         <div className="card">
             <img src={character.image} className="card-img-top" alt="..." />
