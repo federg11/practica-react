@@ -5,35 +5,23 @@ import Card from './components/Card';
 import useFetch from './hooks/CustomFetch/useFetch';
 
 function App() {
-  const [loading, setLoading] = useState(false);
-  const [characters, setCharacters] = useState([]);
   const [idPersonaje, setIdPersonaje] = useState(1);
 
-  const { data } = useFetch('https://rickandmortyapi.com/api/character');
-
-  const getCharacter = async () => {
-    setLoading(true);
-    setCharacters(data?.results);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    getCharacter();
-  }, []);
+  const { data, loading } = useFetch('https://rickandmortyapi.com/api/character');
 
   const getIdPersonaje = (id) => {
     setIdPersonaje(id);
   };
 
   const getCharacterById = async () => {
-    console.log(data);
+    fetch(`https://rickandmortyapi.com/api/character/${idPersonaje}`)
+    .then(resp => resp.json())
+    .then(json => console.log(json));
   };
 
   useEffect(() => {
     getCharacterById();
   }, [idPersonaje]);
-
-  console.log(data);
 
   return (
     <div className="App">
@@ -41,7 +29,7 @@ function App() {
         loading && <p>Cargando....</p>
       }
       {
-        characters?.map(character => <Card
+        data?.map(character => <Card
         key={character.id}
         character={character}
         getIdPersonaje={getIdPersonaje} />)
